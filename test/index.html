@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>내 몸이 원하는 회복 루틴 테스트 | GlowCallie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+<style>
+  :root{
+    --bg: #EEF1EA;
+    --card: #FFFFFF;
+    --ink: #23291F;
+    --ink-soft: #5B6355;
+    --rose: #C97B86;
+    --rose-soft: #F1DCE0;
+    --moss: #7C9473;
+    --moss-soft: #DDE6D8;
+    --honey: #D6A542;
+    --line: rgba(35,41,31,0.10);
+    --shadow: 0 20px 50px -20px rgba(35,41,31,0.25);
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    font-family:'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+    background:
+      radial-gradient(circle at 15% 8%, #F4F6F0 0%, transparent 45%),
+      radial-gradient(circle at 85% 92%, #E7ECE1 0%, transparent 50%),
+      var(--bg);
+    color:var(--ink);
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:32px 16px;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .display{ font-family:'Noto Serif KR', serif; }
+
+  .stage{
+    width:100%;
+    max-width:520px;
+    position:relative;
+  }
+
+  .card{
+    background:var(--card);
+    border-radius:28px;
+    box-shadow:var(--shadow);
+    padding:48px 36px 40px;
+    position:relative;
+    overflow:hidden;
+    animation:cardIn .5s cubic-bezier(.2,.8,.2,1);
+  }
+  @keyframes cardIn{
+    from{ opacity:0; transform:translateY(14px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+
+  /* ---- breathing pulse signature ---- */
+  .pulse-wrap{
+    position:relative;
+    width:132px; height:132px;
+    margin:0 auto 28px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .pulse-ring{
+    position:absolute;
+    border-radius:50%;
+    border:1.5px solid var(--rose);
+    opacity:0;
+    animation:breathe 6s ease-in-out infinite;
+  }
+  .pulse-ring.r1{ width:60px; height:60px; animation-delay:0s; }
+  .pulse-ring.r2{ width:96px; height:96px; animation-delay:1.2s; border-color:var(--moss); }
+  .pulse-ring.r3{ width:132px; height:132px; animation-delay:2.4s; border-color:var(--honey); }
+  @keyframes breathe{
+    0%{ transform:scale(.6); opacity:0; }
+    30%{ opacity:.55; }
+    60%{ opacity:.25; }
+    100%{ transform:scale(1.15); opacity:0; }
+  }
+  .pulse-core{
+    position:relative;
+    width:44px; height:44px;
+    border-radius:50%;
+    background:linear-gradient(135deg, var(--rose), var(--honey));
+    z-index:2;
+    box-shadow:0 8px 20px -6px rgba(201,123,134,.6);
+  }
+  @media (prefers-reduced-motion: reduce){
+    .pulse-ring{ animation:none; opacity:.3; }
+  }
+
+  /* ---- intro ---- */
+  .eyebrow{
+    text-align:center;
+    font-size:12.5px;
+    letter-spacing:.14em;
+    color:var(--moss);
+    font-weight:600;
+    margin-bottom:10px;
+    text-transform:uppercase;
+  }
+  h1.title{
+    text-align:center;
+    font-size:26px;
+    font-weight:700;
+    line-height:1.4;
+    margin:0 0 14px;
+    color:var(--ink);
+  }
+  .subtitle{
+    text-align:center;
+    font-size:14.5px;
+    color:var(--ink-soft);
+    margin:0 0 32px;
+    padding:0 8px;
+  }
+  .meta-row{
+    display:flex;
+    justify-content:center;
+    gap:18px;
+    margin-bottom:30px;
+    font-size:12.5px;
+    color:var(--ink-soft);
+  }
+  .meta-row span{ display:flex; align-items:center; gap:6px; }
+  .dot{ width:5px; height:5px; border-radius:50%; background:var(--rose); display:inline-block; }
+
+  button{
+    font-family:inherit;
+    cursor:pointer;
+    border:none;
+    outline:none;
+  }
+  .btn-primary{
+    width:100%;
+    background:var(--ink);
+    color:#fff;
+    font-size:15.5px;
+    font-weight:600;
+    padding:16px;
+    border-radius:14px;
+    transition:transform .15s ease, background .2s ease;
+    letter-spacing:.01em;
+  }
+  .btn-primary:hover{ background:#171C13; transform:translateY(-1px); }
+  .btn-primary:active{ transform:translateY(0); }
+  .btn-primary:focus-visible{ box-shadow:0 0 0 3px var(--moss-soft); }
+
+  .btn-ghost{
+    width:100%;
+    background:transparent;
+    color:var(--ink-soft);
+    font-size:14px;
+    font-weight:500;
+    padding:14px;
+    border-radius:14px;
+    border:1px solid var(--line);
+    margin-top:10px;
+    transition:background .2s ease, border-color .2s ease;
+  }
+  .btn-ghost:hover{ background:var(--moss-soft); border-color:var(--moss); color:var(--ink); }
+  .btn-ghost:focus-visible{ box-shadow:0 0 0 3px var(--moss-soft); }
+
+  .btn-shop{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    width:100%;
+    background:linear-gradient(135deg, var(--rose), var(--honey));
+    color:#fff;
+    font-size:15.5px;
+    font-weight:700;
+    padding:16px;
+    border-radius:14px;
+    text-decoration:none;
+    letter-spacing:.01em;
+    transition:transform .15s ease, box-shadow .2s ease;
+    box-shadow:0 10px 24px -10px rgba(201,123,134,.55);
+    margin-bottom:10px;
+  }
+  .btn-shop:hover{ transform:translateY(-1px); box-shadow:0 14px 28px -10px rgba(201,123,134,.6); }
+  .btn-shop:active{ transform:translateY(0); }
+  .btn-shop:focus-visible{ box-shadow:0 0 0 3px var(--moss-soft); }
+  .btn-shop svg{ flex-shrink:0; }
+
+  /* ---- progress ---- */
+  .progress-row{
+    display:flex;
+    gap:6px;
+    margin-bottom:28px;
+  }
+  .progress-seg{
+    flex:1;
+    height:4px;
+    border-radius:4px;
+    background:var(--line);
+    overflow:hidden;
+  }
+  .progress-seg i{
+    display:block;
+    height:100%;
+    width:0%;
+    background:var(--moss);
+    transition:width .4s ease;
+  }
+  .progress-label{
+    text-align:right;
+    font-size:12px;
+    color:var(--ink-soft);
+    margin:-18px 0 26px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---- question ---- */
+  .q-eyebrow{
+    font-size:12px;
+    color:var(--rose);
+    font-weight:700;
+    letter-spacing:.06em;
+    margin-bottom:10px;
+  }
+  .q-text{
+    font-size:19.5px;
+    font-weight:700;
+    line-height:1.5;
+    margin:0 0 26px;
+    color:var(--ink);
+  }
+  .options{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .opt{
+    text-align:left;
+    background:#FBFAF7;
+    border:1.5px solid var(--line);
+    border-radius:14px;
+    padding:16px 18px;
+    font-size:14.5px;
+    color:var(--ink);
+    transition:border-color .15s ease, background .15s ease, transform .1s ease;
+    line-height:1.45;
+  }
+  .opt:hover{ border-color:var(--rose); background:var(--rose-soft); }
+  .opt:active{ transform:scale(.99); }
+  .opt:focus-visible{ box-shadow:0 0 0 3px var(--moss-soft); }
+
+  /* ---- result ---- */
+  .result-icon-wrap{
+    width:88px; height:88px;
+    margin:0 auto 20px;
+    border-radius:50%;
+    background:var(--rose-soft);
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+    z-index:2;
+  }
+  .result-tag{
+    text-align:center;
+    font-size:12.5px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--moss);
+    font-weight:700;
+    margin-bottom:8px;
+  }
+  .result-title{
+    text-align:center;
+    font-size:25px;
+    font-weight:700;
+    margin:0 0 6px;
+  }
+  .result-sub{
+    text-align:center;
+    font-size:14px;
+    color:var(--ink-soft);
+    margin:0 0 26px;
+  }
+  .result-block{
+    background:#FBFAF7;
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:20px 20px;
+    margin-bottom:14px;
+  }
+  .result-block h3{
+    font-size:13px;
+    font-weight:700;
+    color:var(--rose);
+    margin:0 0 8px;
+    letter-spacing:.02em;
+  }
+  .result-block p{
+    font-size:14px;
+    color:var(--ink);
+    margin:0;
+    line-height:1.65;
+  }
+  .result-block ul{
+    margin:0; padding-left:18px;
+  }
+  .result-block li{
+    font-size:14px;
+    line-height:1.7;
+    color:var(--ink);
+  }
+  .brand-tag{
+    text-align:center;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    margin-top:22px;
+    letter-spacing:.02em;
+  }
+  .brand-tag b{ color:var(--rose); }
+
+  .screen{ display:none; }
+  .screen.active{ display:block; }
+
+  @media (max-width:480px){
+    .card{ padding:38px 22px 32px; border-radius:22px; }
+    h1.title{ font-size:22px; }
+    .q-text{ font-size:18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <div class="card">
+
+    <!-- ================= INTRO ================= -->
+    <section class="screen active" id="screen-intro">
+      <div class="pulse-wrap">
+        <div class="pulse-ring r1"></div>
+        <div class="pulse-ring r2"></div>
+        <div class="pulse-ring r3"></div>
+        <div class="pulse-core"></div>
+      </div>
+      <div class="eyebrow">GlowCallie · Body Signal Test</div>
+      <h1 class="title display">내 몸이 원하는<br>회복 루틴 테스트</h1>
+      <p class="subtitle">몸이 보내는 신호에는 늘 이유가 있어요.<br>6개의 질문으로 지금 당신에게 필요한<br>회복 루틴을 찾아드릴게요.</p>
+      <div class="meta-row">
+        <span><i class="dot"></i>질문 6개</span>
+        <span><i class="dot"></i>약 1분 소요</span>
+        <span><i class="dot"></i>결과 5가지</span>
+      </div>
+      <button class="btn-primary" onclick="startQuiz()">테스트 시작하기</button>
+    </section>
+
+    <!-- ================= QUIZ ================= -->
+    <section class="screen" id="screen-quiz">
+      <div class="progress-row" id="progressRow"></div>
+      <div class="progress-label" id="progressLabel">1 / 6</div>
+      <div class="q-eyebrow" id="qEyebrow">QUESTION 01</div>
+      <div class="q-text" id="qText"></div>
+      <div class="options" id="qOptions"></div>
+    </section>
+
+    <!-- ================= RESULT ================= -->
+    <section class="screen" id="screen-result">
+      <div class="result-icon-wrap" id="resultIconWrap"></div>
+      <div class="result-tag" id="resultTag">YOUR RECOVERY TYPE</div>
+      <h2 class="result-title display" id="resultTitle"></h2>
+      <p class="result-sub" id="resultSub"></p>
+
+      <div class="result-block">
+        <h3>왜 이 결과가 나왔을까요</h3>
+        <p id="resultWhy"></p>
+      </div>
+
+      <div class="result-block">
+        <h3>지금 필요한 회복 루틴</h3>
+        <ul id="resultRoutine"></ul>
+      </div>
+
+      <div class="result-block">
+        <h3>편안전활 코멘트</h3>
+        <p id="resultBrainNote"></p>
+      </div>
+
+      <a class="btn-shop" id="shopBtn" href="#" target="_blank" rel="noopener sponsored">
+        <span id="shopBtnText">추천 아이템 보러가기</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 13L13 3M13 3H5M13 3V11" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <button class="btn-primary" onclick="location.reload()">다시 테스트하기</button>
+      <button class="btn-ghost" onclick="copyResult()">결과 텍스트 복사하기</button>
+      <div style="text-align:center; font-size:11px; color:var(--ink-soft); margin-top:6px;">이 링크를 통해 구매 시 수수료를 지급받을 수 있습니다</div>
+      <div class="brand-tag">몸의 신호로 마음을 해석합니다 · <b>@glowcallie</b></div>
+    </section>
+
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   데이터 설계
+   카테고리: M(움직임/Move), N(채움/Nourish), R(쉼/Rest),
+             C(연결/Connect), G(전환/Grow)
+   각 문항 4지선다 → 카테고리 1점씩 부여
+   ============================================================ */
+
+const QUESTIONS = [
+  {
+    q: "요즘 내 몸이 가장 자주 보내는 신호는?",
+    options: [
+      { t:"자꾸 몸이 찌뿌둥하고, 움직이고 싶어져요", c:"M" },
+      { t:"이유 없이 배가 고프거나 자꾸 뭔가 먹고 싶어요", c:"N" },
+      { t:"자도 자도 피곤하고 눈이 계속 무거워요", c:"R" },
+      { t:"괜히 예민해지고, 누군가와 이야기하고 싶어요", c:"C" }
+    ]
+  },
+  {
+    q: "스트레스 받는 날, 나도 모르게 하게 되는 행동은?",
+    options: [
+      { t:"일단 밖으로 나가서 걷거나 몸을 움직인다", c:"M" },
+      { t:"뭔가를 먹거나 마신다", c:"N" },
+      { t:"마사지나 스파를 받으러 간다", c:"R" },
+      { t:"원인을 분석하고 해결 방법부터 찾는다", c:"G" }
+    ]
+  },
+  {
+    q: "오랜만에 온전히 내 시간이 생긴 주말, 나는?",
+    options: [
+      { t:"늦잠을 자거나 집에서 푹 쉰다", c:"R" },
+      { t:"운동이나 산책으로 몸부터 움직인다", c:"M" },
+      { t:"사람을 만나거나 연락한다", c:"C" },
+      { t:"보고 싶던 콘텐츠나 책을 본다", c:"G" }
+    ]
+  },
+  {
+    q: "몸이 유독 무겁게 느껴질 때, 가장 끌리는 건?",
+    options: [
+      { t:"땀 흘리는 운동", c:"M" },
+      { t:"아무것도 안 하고 눕는 것", c:"R" },
+      { t:"좋아하는 사람과의 수다", c:"C" },
+      { t:"환경을 바꾸는 것 (여행, 산책 코스 변경 등)", c:"G" }
+    ]
+  },
+  {
+    q: "요즘 나를 가장 힘들게 하는 감정은?",
+    options: [
+      { t:"허전함, 채워지지 않는 느낌", c:"N" },
+      { t:"지침, 완전히 소진된 느낌", c:"R" },
+      { t:"외로움, 단절된 느낌", c:"C" },
+      { t:"정체됨, 제자리걸음 하는 느낌", c:"G" }
+    ]
+  },
+  {
+    q: "\"아, 회복됐다\" 싶은 순간은 언제인가요?",
+    options: [
+      { t:"몸을 움직이고 땀을 흘렸을 때", c:"M" },
+      { t:"좋은 음식을 제대로 챙겨 먹었을 때", c:"N" },
+      { t:"푹 자고 개운하게 눈떴을 때", c:"R" },
+      { t:"누군가와 진심으로 대화 나눴을 때", c:"C" }
+    ]
+  }
+];
+
+/* 동점 시 우선순위 (브랜드 5개 루틴 순서 기준) */
+const PRIORITY = ["R","C","N","M","G"];
+
+/* ============================================================
+   쿠팡파트너스 상품 링크
+   - 베이스 링크는 GlowCallie 링크인바이오(인포크) 페이지
+   - 유형별로 utm_content만 다르게 붙여서, 어떤 결과에서
+     유입됐는지 나중에 추적할 수 있게 구성
+   ============================================================ */
+const SHOP_BASE_URL = "https://link.inpock.co.kr/glowcallie";
+
+const PRODUCT_LINKS = {
+  M: { label:"무브형 추천 아이템 보러가기", utm:"quiz_move" },
+  N: { label:"채움형 추천 아이템 보러가기", utm:"quiz_nourish" },
+  R: { label:"쉼형 추천 아이템 보러가기",   utm:"quiz_rest" },
+  C: { label:"연결형 추천 아이템 보러가기", utm:"quiz_connect" },
+  G: { label:"성장형 추천 아이템 보러가기", utm:"quiz_grow" }
+};
+
+function buildShopUrl(utmContent){
+  return `${SHOP_BASE_URL}?utm_source=quiz&utm_medium=recovery_test&utm_content=${utmContent}`;
+}
+
+const RESULTS = {
+  M: {
+    tag:"MOVE TYPE",
+    title:"무브형 · 움직여야 풀리는 사람",
+    sub:"몸을 움직여야 비로소 마음이 정리되는 타입이에요",
+    icon: `<svg width="40" height="40" viewBox="0 0 40 40" fill="none"><path d="M8 28L18 16L24 22L32 10" stroke="#C97B86" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M25 10H32V17" stroke="#C97B86" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+    why:"감정이 몸 안에 정체되어 있을 때, 가만히 머무는 것보다 움직여서 배출해야 편안해지는 타입이에요. 답답함이나 무기력이 쌓이면 오히려 몸부터 반응하는 신호를 보내고 있었을 가능성이 커요.",
+    routine:[
+      "아침 Zone2 걷기·러닝 15~20분",
+      "하루 한 번, 앉은 자리에서 벗어나 5분 스트레칭",
+      "감정이 복잡할 땐 생각보다 몸을 먼저 움직이기"
+    ],
+    brain:"편도체가 흥분 상태일 때는 억지로 이완하려 하기보다, 몸을 움직여 에너지를 흘려보내는 쪽이 전전두엽 활성화에 더 빠르게 도움이 돼요. 움직임이 곧 안정의 시작이에요."
+  },
+  N: {
+    tag:"NOURISH TYPE",
+    title:"채움형 · 결핍이 신호로 오는 사람",
+    sub:"몸의 결핍이 곧 마음의 결핍으로 나타나는 타입이에요",
+    icon: `<svg width="40" height="40" viewBox="0 0 40 40" fill="none"><path d="M20 8C20 8 12 18 12 25C12 30 15.5 33 20 33C24.5 33 28 30 28 25C28 18 20 8 20 8Z" stroke="#C97B86" stroke-width="2.4" stroke-linejoin="round"/></svg>`,
+    why:"허기, 허전함, 뭔가 채워지지 않는 느낌으로 신호가 오는 타입이에요. 몸의 결핍이 방치되면 감정의 결핍으로 번지기 쉬워서, 다른 어떤 루틴보다 '잘 채우는 것'이 먼저예요.",
+    routine:[
+      "하루 세 끼, 정해진 시간에 챙겨 먹기",
+      "저탄수·균형 잡힌 한 끼로 혈당 널뛰기 줄이기",
+      "물 마시는 타이밍을 시간대별로 정해두기"
+    ],
+    brain:"영양과 수분이 부족하면 편도체가 더 예민해지고, 전전두엽은 오히려 힘을 못 써요. 잘 챙겨 먹는 것 자체가 신경계를 안정시키는 가장 기본적인 편안전활 루틴이에요."
+  },
+  R: {
+    tag:"REST TYPE",
+    title:"쉼형 · 쉬어야 채워지는 사람",
+    sub:"멈춰야 비로소 회복되는 타입이에요",
+    icon: `<svg width="40" height="40" viewBox="0 0 40 40" fill="none"><path d="M28 22C25 26 19 27 14.5 24C10 21 8.5 15 11 10C7.5 12 5 16 5 20.5C5 27.4 10.6 33 17.5 33C24 33 29.3 28 30 21.7C29.4 21.8 28.7 21.9 28 22Z" stroke="#C97B86" stroke-width="2.2" stroke-linejoin="round"/></svg>`,
+    why:"소진 신호가 가장 강하게 오는 타입이에요. 이 상태에서 억지로 움직이거나 무언가를 더 시도하면 편도체가 더 흥분돼요. 지금은 '더 하기'보다 '멈추기'가 먼저 필요한 시기예요.",
+    routine:[
+      "취침·기상 시간 고정해서 수면 루틴 세팅",
+      "낮 시간 10~15분 짧은 낮잠 또는 눈 감기",
+      "잠들기 전 1시간 디지털 디톡스"
+    ],
+    brain:"쉼 없이 편도체를 계속 자극하면 전전두엽은 점점 지쳐요. 충분히 멈추는 것이야말로 편도체를 안정시키고 전전두엽을 다시 켜는 가장 빠른 길이에요."
+  },
+  C: {
+    tag:"CONNECT TYPE",
+    title:"연결형 · 관계 속에서 회복되는 사람",
+    sub:"단절이 아닌 연결이 필요한 타입이에요",
+    icon: `<svg width="40" height="40" viewBox="0 0 40 40" fill="none"><circle cx="16" cy="20" r="9" stroke="#C97B86" stroke-width="2.2"/><circle cx="25" cy="20" r="9" stroke="#7C9473" stroke-width="2.2"/></svg>`,
+    why:"외로움, 단절감으로 신호가 오는 타입이에요. 혼자 해결하려 할수록 오히려 더 소진되기 쉬운 타입이라, 사람과의 연결 자체가 회복의 핵심 재료가 돼요.",
+    routine:[
+      "일주일에 한 번, 마음 나눌 사람과 정기적으로 연락하기",
+      "루틴 동행·프리다이빙 모임 같은 소셜 루틴에 참여하기",
+      "혼자 참기보다 지금 느끼는 감정을 말로 꺼내기"
+    ],
+    brain:"안전한 관계 안에서 이야기할 때 편도체는 안정되고 전전두엽은 다시 켜져요. 연결은 감정 그 자체가 아니라, 신경계를 조절하는 실질적인 도구예요."
+  },
+  G: {
+    tag:"GROW TYPE",
+    title:"성장형 · 변화가 곧 회복인 사람",
+    sub:"정체됨을 못 견디는, 전환이 필요한 타입이에요",
+    icon: `<svg width="40" height="40" viewBox="0 0 40 40" fill="none"><path d="M20 32V12" stroke="#C97B86" stroke-width="2.4" stroke-linecap="round"/><path d="M13 19L20 12L27 19" stroke="#C97B86" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+    why:"제자리걸음처럼 느껴지는 정체감이 가장 큰 스트레스로 오는 타입이에요. 이 타입은 쉬는 것만으로는 잘 채워지지 않고, 작은 변화와 새로운 자극이 있어야 회복을 느껴요.",
+    routine:[
+      "이번 주 루틴 중 딱 하나만 새롭게 바꿔보기",
+      "작은 챌린지(14일 루틴 동행 같은) 시작해보기",
+      "익숙한 동선·환경에 작은 변화 주기"
+    ],
+    brain:"같은 자극이 반복되면 전전두엽은 무뎌지고 정체감이 편도체를 자극해요. 적당한 새로움은 전전두엽을 다시 깨우는 좋은 자극이 돼요. 변화가 곧 이 타입의 쉼이에요."
+  }
+};
+
+/* ============================================================
+   상태 & 로직
+   ============================================================ */
+let current = 0;
+const scores = { M:0, N:0, R:0, C:0, G:0 };
+
+function showScreen(id){
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+
+function buildProgressBar(){
+  const row = document.getElementById("progressRow");
+  row.innerHTML = "";
+  QUESTIONS.forEach((_, i) => {
+    const seg = document.createElement("div");
+    seg.className = "progress-seg";
+    seg.innerHTML = `<i id="seg-${i}"></i>`;
+    row.appendChild(seg);
+  });
+}
+
+function updateProgress(){
+  for(let i=0;i<QUESTIONS.length;i++){
+    document.getElementById(`seg-${i}`).style.width = i < current ? "100%" : "0%";
+  }
+  document.getElementById("progressLabel").textContent = `${current+1} / ${QUESTIONS.length}`;
+}
+
+function renderQuestion(){
+  const item = QUESTIONS[current];
+  document.getElementById("qEyebrow").textContent = `QUESTION ${String(current+1).padStart(2,"0")}`;
+  document.getElementById("qText").textContent = item.q;
+  const wrap = document.getElementById("qOptions");
+  wrap.innerHTML = "";
+  item.options.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.className = "opt";
+    btn.textContent = opt.t;
+    btn.onclick = () => selectOption(opt.c);
+    wrap.appendChild(btn);
+  });
+  updateProgress();
+}
+
+function selectOption(category){
+  scores[category] += 1;
+  current += 1;
+  if(current >= QUESTIONS.length){
+    showResult();
+  } else {
+    renderQuestion();
+  }
+}
+
+function startQuiz(){
+  buildProgressBar();
+  showScreen("screen-quiz");
+  renderQuestion();
+}
+
+function computeResultKey(){
+  let best = PRIORITY[0];
+  let bestScore = -1;
+  PRIORITY.forEach(key => {
+    if(scores[key] > bestScore){
+      bestScore = scores[key];
+      best = key;
+    }
+  });
+  return best;
+}
+
+function showResult(){
+  const key = computeResultKey();
+  const r = RESULTS[key];
+  document.getElementById("resultIconWrap").innerHTML = r.icon;
+  document.getElementById("resultTag").textContent = r.tag;
+  document.getElementById("resultTitle").textContent = r.title;
+  document.getElementById("resultSub").textContent = r.sub;
+  document.getElementById("resultWhy").textContent = r.why;
+  document.getElementById("resultBrainNote").textContent = r.brain;
+
+  const product = PRODUCT_LINKS[key];
+  document.getElementById("shopBtn").href = buildShopUrl(product.utm);
+  document.getElementById("shopBtnText").textContent = product.label;
+
+  const ul = document.getElementById("resultRoutine");
+  ul.innerHTML = "";
+  r.routine.forEach(line => {
+    const li = document.createElement("li");
+    li.textContent = line;
+    ul.appendChild(li);
+  });
+  window.__lastResult = r;
+  showScreen("screen-result");
+}
+
+function copyResult(){
+  const r = window.__lastResult;
+  if(!r) return;
+  const text = `[내 몸이 원하는 회복 루틴 테스트]\n\n${r.title}\n${r.sub}\n\n▸ 왜 이 결과가 나왔을까요\n${r.why}\n\n▸ 지금 필요한 회복 루틴\n${r.routine.map(x=>"- "+x).join("\n")}\n\n▸ 편안전활 코멘트\n${r.brain}\n\n@glowcallie`;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = event.target;
+    const original = btn.textContent;
+    btn.textContent = "복사 완료!";
+    setTimeout(() => btn.textContent = original, 1500);
+  });
+}
+</script>
+</body>
+</html>
