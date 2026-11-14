@@ -36,7 +36,7 @@ Hi Claude, please edit my CapCut project "Reels_1114" into a 9:16 Instagram Reel
 
 Tasks:
 1. Cut out repeats, mistakes, long pauses, and anything out of place. Speed up similar repeated scenes.
-2. First 3 seconds: show the title "<제목>" large and centered with a light pop-up animation, and a slow zoom-in on the key result shot.
+2. First 3 seconds: show the title "<제목>" large and centered with a light pop-up animation, and a slow zoom-in on the key result shot. Sync one opening sound effect (from CapCut Sound FX, see list below) to the title pop-up.
 3. Every 2–3 seconds, add a small change: zoom-in, zoom-out, close-up, or a subtitle change. Avoid flashy transitions.
 4. Emphasize key scenes (e.g. scalp check, EMS, ampoule care) with close-ups so details are clear.
 5. Cut on the beat of the background music from my "BGM" folder on the Desktop.
@@ -47,6 +47,12 @@ Tasks:
 10. Overall mood: natural and refined, not flashy. Keep the original natural feel, just more lively.
 11. Use the attached reference video for pacing, cut rhythm, subtitle style (font, size, position, color), and mood.
 12. Make sure all generated assets use a format and file path CapCut can read.
+
+Opening sound effects (CapCut > Audio > Sound FX, use only 1–2):
+- Title pop-up: "Pipong" (I.L.J) or "Culin. It looks like a light bulb mark is on the head." (yuki)
+- Reveal/result: "Japanese drum dodon (live performance)" (Killy) or Kotsuzumi 1176635 (Yamanakako)
+- Makeover/transition: "Something rolls, makeover #2" 843485 (Hibari Studio) or "Bubbles / Sound of bubbles_001" 1023096 (Miner7♭5)
+- Typing captions: "Realistic sound effects for typing on keyboards" (Rapid Fire)
 
 Constraints:
 - Do NOT use computer use or open CapCut. Edit the project files directly through file access on my Mac.
