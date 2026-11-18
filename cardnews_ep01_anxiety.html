@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>글로우캘리 카드뉴스 EP01</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #E9E9E9;
+    font-family: 'Noto Sans KR', sans-serif;
+    padding: 40px 0;
+  }
+  .wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+  }
+  .slide {
+    position: relative;
+    width: 405px;
+    height: 540px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .light { background: #FFFFFF; }
+  .dark { background: #111111; }
+
+  /* 공통 */
+  .content { flex: 1; padding: 30px 28px 0; position: relative; }
+  .num { font-size: 10px; color: #CCCCCC; letter-spacing: 0.08em; margin-bottom: 22px; }
+  .badge {
+    display: inline-block;
+    background: #111111; color: #FFFFFF;
+    font-size: 9.5px; font-weight: 500;
+    border-radius: 3px; padding: 4px 10px;
+    margin-bottom: 14px;
+  }
+  .headline {
+    font-family: 'Noto Serif KR', serif;
+    font-weight: 700; font-size: 20px;
+    color: #111111; line-height: 1.5;
+    margin-bottom: 14px;
+  }
+  .divider { width: 24px; height: 1.5px; background: #111111; margin-bottom: 14px; }
+  .body { font-size: 13px; font-weight: 400; color: #555555; line-height: 1.95; }
+  .point { color: #1A73E8; font-weight: 500; }
+  .logo-bar {
+    height: 44px; border-top: 1px solid #EEEEEE;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700; color: #111111;
+  }
+  .dark .logo-bar { border-top: 1px solid rgba(255,255,255,0.1); color: #FFFFFF; }
+
+  /* SLIDE 1 */
+  .s1 { justify-content: flex-end; }
+  .s1::before {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.8) 100%);
+  }
+  .s1 .tag {
+    position: absolute; top: 26px; right: 26px; z-index: 2;
+    background: #FFFFFF; color: #111111;
+    font-size: 9px; font-weight: 700; letter-spacing: 0.12em;
+    padding: 5px 10px; border-radius: 2px;
+  }
+  .s1 .hook-area { position: relative; z-index: 2; padding: 0 30px 46px; }
+  .s1 .hook-row { display: flex; gap: 14px; align-items: flex-start; }
+  .s1 .accent { width: 2px; height: 56px; background: #FFFFFF; margin-top: 8px; flex-shrink: 0; }
+  .s1 .hook {
+    font-family: 'Noto Serif KR', serif;
+    font-weight: 900; font-size: 26px;
+    color: #FFFFFF; line-height: 1.45;
+  }
+  .s1 .sub {
+    font-size: 12px; font-weight: 300;
+    color: rgba(255,255,255,0.55);
+    margin-top: 10px; padding-left: 16px;
+  }
+
+  /* SLIDE 3 */
+  .list { list-style: none; margin-top: 6px; }
+  .list li { display: flex; align-items: baseline; gap: 14px; margin-bottom: 16px; }
+  .list .n {
+    font-family: 'Noto Serif KR', serif;
+    font-weight: 900; font-size: 18px; color: #111111;
+    width: 22px; flex-shrink: 0;
+  }
+  .list .t { font-size: 14px; font-weight: 500; color: #111111; line-height: 1.5; }
+  .list .d { display: block; font-size: 11.5px; font-weight: 400; color: #888888; margin-top: 2px; }
+
+  /* SLIDE 4 QUOTE */
+  .qmark {
+    position: absolute; top: 40px; left: 22px;
+    font-family: 'Noto Serif KR', serif;
+    font-size: 72px; color: #EEEEEE; line-height: 1;
+  }
+  .quote {
+    position: relative;
+    font-family: 'Noto Serif KR', serif;
+    font-weight: 400; font-size: 16px;
+    color: #333333; line-height: 1.85;
+    padding-top: 24px;
+  }
+  .quote b { font-weight: 700; color: #111111; }
+  .qsrc { font-size: 10px; font-weight: 300; color: #AAAAAA; margin-top: 10px; }
+  .s4 .divider { margin-top: 16px; }
+
+  /* SLIDE 5 */
+  .s5 .content { display: flex; flex-direction: column; }
+  .s5 .spacer { flex: 1; }
+  .cta-label {
+    font-size: 9px; font-weight: 300;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 0.22em; text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .cta-headline {
+    font-family: 'Noto Serif KR', serif;
+    font-weight: 900; font-size: 26px;
+    color: #FFFFFF; line-height: 1.45;
+    margin-bottom: 24px;
+  }
+  .cta-btn {
+    align-self: flex-start;
+    background: #FFFFFF; color: #111111;
+    font-size: 12px; font-weight: 700;
+    padding: 12px 22px; border-radius: 4px;
+  }
+  .cta-sub {
+    font-size: 11px; font-weight: 300;
+    color: rgba(255,255,255,0.35);
+    line-height: 1.8; margin-top: 12px;
+    margin-bottom: 34px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- SLIDE 01 · THUMBNAIL -->
+  <section class="slide dark s1">
+    <div class="tag">알아차림</div>
+    <div class="hook-area">
+      <div class="hook-row">
+        <div class="accent"></div>
+        <h1 class="hook">불안할 때,<br>마음보다 먼저<br>살펴야 할 것</h1>
+      </div>
+      <p class="sub">나는 왜 매일 불안할까요?</p>
+    </div>
+  </section>
+
+  <!-- SLIDE 02 · CONTENT_PROBLEM -->
+  <section class="slide light">
+    <div class="content">
+      <p class="num">02 / 05</p>
+      <span class="badge">불안의 이유</span>
+      <h2 class="headline">'걱정하지 말자'가<br>안 통했던 이유</h2>
+      <div class="divider"></div>
+      <p class="body">
+        아직 오지 않은 일, 남의 마음까지<br>
+        통제하려 할수록 더 불안해져요.<br>
+        마음을 억지로 바꾸기는 어려우니까<br>
+        순서를 바꿔요. <span class="point">몸부터요.</span>
+      </p>
+    </div>
+    <div class="logo-bar">글로우캘리</div>
+  </section>
+
+  <!-- SLIDE 03 · CONTENT_LIST -->
+  <section class="slide light">
+    <div class="content">
+      <p class="num">03 / 05</p>
+      <h2 class="headline">불안할 때<br>바로 하는 3가지</h2>
+      <div class="divider"></div>
+      <ol class="list">
+        <li><span class="n">1</span><span class="t">숨 길게 내쉬기<span class="d">4초 들이쉬고, 6초 정도 천천히</span></span></li>
+        <li><span class="n">2</span><span class="t">턱·어깨 힘 빼기<span class="d">턱을 살짝 벌리고 어깨를 툭</span></span></li>
+        <li><span class="n">3</span><span class="t">호흡 알아차리기<span class="d">숨이 드나드는 감각만 느끼기</span></span></li>
+      </ol>
+    </div>
+    <div class="logo-bar">글로우캘리</div>
+  </section>
+
+  <!-- SLIDE 04 · CONTENT_QUOTE -->
+  <section class="slide light s4">
+    <div class="content">
+      <p class="num">04 / 05</p>
+      <span class="qmark">“</span>
+      <p class="quote"><b>무엇을 하느냐</b>만큼<br><b>무엇부터 하느냐</b>도 중요하다</p>
+      <p class="qsrc">김주환 교수 강의에서 배운 것</p>
+      <div class="divider"></div>
+      <p class="body">
+        몸의 신호를 먼저 알아차리고,<br>
+        10분 ZONE 2 걷기, 1분 명상.<br>
+        <span class="point">불안한 나를 알아차리는 것부터요.</span>
+      </p>
+    </div>
+    <div class="logo-bar">글로우캘리</div>
+  </section>
+
+  <!-- SLIDE 05 · CTA -->
+  <section class="slide dark s5">
+    <div class="content">
+      <div class="spacer"></div>
+      <p class="cta-label">SAVE</p>
+      <h2 class="cta-headline">불안한 날<br>다시 읽어보세요</h2>
+      <span class="cta-btn">→ 저장하기</span>
+      <p class="cta-sub">오늘은 딱 하나만 시작해도 충분해요 🤍</p>
+    </div>
+    <div class="logo-bar">글로우캘리</div>
+  </section>
+
+</div>
+</body>
+</html>
